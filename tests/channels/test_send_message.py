@@ -5,6 +5,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+from constants import BASE_URL, EMAIL, PASSWORD
+
 import datetime
 now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") #Gọi hàm để lấy đối tượng thời gian chính xác tại thời điểm mã được thực thi (bao gồm năm, tháng, ngày, giờ, phút, giây và micro giây).
 
@@ -15,15 +17,15 @@ def test_send_message():
     wait = WebDriverWait(driver, 15)
 
     try:
-        driver.get("https://mezon.ai/")
+        driver.get(BASE_URL)
         login_homepage_btn = wait.until(EC.element_to_be_clickable((By.LINK_TEXT, "Login")))
         login_homepage_btn.click()
         email_password_option = wait.until(EC.element_to_be_clickable((By.LINK_TEXT, "Login with Email and Password")))
         email_password_option.click()
         email_field = wait.until(EC.presence_of_element_located((By.NAME, "email")))
-        email_field.send_keys("yocosa3965@crsay.com")
+        email_field.send_keys(EMAIL)
         password_field = driver.find_element(By.NAME, "login_password")
-        password_field.send_keys("Thanhhien312@")
+        password_field.send_keys(PASSWORD)
         login_btn = wait.until(EC.element_to_be_clickable((By.ID, "sendOtpBtn")))
         login_btn.click()
         wait.until(EC.presence_of_element_located((By.XPATH, "//div[@class='flex flex-row gap-2 items-center text-theme-primary-active font-medium']")))
