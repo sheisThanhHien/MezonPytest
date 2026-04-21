@@ -16,3 +16,6 @@ x = None	NoneType
 
 element_to_be_clickable -->
 presence_of_element_located
+
+import datetime  #Nhập thư viện datetime có sẵn của Python để làm việc với ngày tháng và thời gian.
+now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") #Gọi hàm để lấy đối tượng thời gian chính xác tại thời điểm mã được thực thi (bao gồm năm, tháng, ngày, giờ, phút, giây và micro giây).
