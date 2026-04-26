@@ -1,4 +1,4 @@
-# BASE_URL = "https://mezon.ai/"
+BASE_URL = "https://mezon.ai"
 # URL Test Dev
 BASE_URL = "https://dev-mezon.nccsoft.vn/"
 
