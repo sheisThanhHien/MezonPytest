@@ -1,4 +1,4 @@
-BASE_URL = "https://mezon.ai"
+# BASE_URL = "https://mezon.ai"
 # URL Test Dev
 BASE_URL = "https://dev-mezon.nccsoft.vn/"
 
@@ -10,3 +10,10 @@ BASE_URL = "https://dev-mezon.nccsoft.vn/"
 EMAIL = "yocosa3965@crsay.com"
 PASSWORD = "Thanhhien312@"
 INVALID_PASSWORD = PASSWORD + "@"
+
+
+import datetime
+
+def get_current_time():
+    # Gom logic xử lý time
+    return datetime.datetime.now().strftime("%Y%m%d %H%M%S")
