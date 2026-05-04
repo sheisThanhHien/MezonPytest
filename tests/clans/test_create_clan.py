@@ -33,7 +33,7 @@ def test_create_clan():
         
         modal_clan_name_input = wait.until(
             EC.presence_of_element_located((By.CSS_SELECTOR, "[data-e2e='clan_page-modal-create_clan-input-clan_name']")))
-        clan_name = "Pytest Mezon at " + get_current_time()
+        clan_name = "E2E Clan " + get_current_time()
         modal_clan_name_input.send_keys(clan_name)
 
         buttons = create_clan_modal.find_elements(By.CSS_SELECTOR, "button[data-e2e='button-base']")
