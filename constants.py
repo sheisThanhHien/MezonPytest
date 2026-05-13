@@ -24,7 +24,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from constants import BASE_URL, EMAIL, PASSWORD
 
-def login_mezon(driver, wait):
+def login_email_password(driver, wait):
     """Hàm đăng nhập lấy từ test_login_success.py"""
     driver.get(BASE_URL)
     wait.until(EC.element_to_be_clickable((By.LINK_TEXT, "Login"))).click()
@@ -32,6 +32,7 @@ def login_mezon(driver, wait):
     wait.until(EC.presence_of_element_located((By.NAME, "email"))).send_keys(EMAIL)
     driver.find_element(By.NAME, "login_password").send_keys(PASSWORD)
     wait.until(EC.element_to_be_clickable((By.ID, "sendOtpBtn"))).click()
+    wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "[data-e2e='button-base']")))
 
 def find_message_item(driver, expected_text):
     """Hàm tìm tin nhắn lấy từ test_send_message.py"""
@@ -42,4 +43,13 @@ def find_message_item(driver, expected_text):
             return item, text_nodes[0]
     return None, None
 
+def delete_clan (driver, wait, clan_name):
+    wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "[data-e2e='clan_page-header-title-clan_name']"))).click()    
+    clan_settings_menu = wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, "[data-e2e='clan_page-header-modal_panel-item']")))
+    clan_settings_option = clan_settings_menu[3].click() 
+    wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "[data-e2e='clan_page-settings-sidebar-delete']"))).click() 
+    confirm_input = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "[data-e2e='clan_page-settings-modal-delete_clan-input']")))
+    confirm_input.send_keys(clan_name)
+    wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "[data-e2e='clan_page-settings-modal-delete_clan-confirm']"))).click() 
+    print("Deleted clan successfully.")    
 
