@@ -1,4 +1,5 @@
 from helpers import get_current_time, login_email_password, create_clan, delete_clan
+from tests.categories.test_create_category import create_category
 
 import time
 import pytest
@@ -25,6 +26,12 @@ def test_mezon_full_flow(driver, wait):
 
         print("Created clan successfully.")
 
+
+        # Create Category
+        create_category(driver, wait)
+
+
+
         # # Gửi tin nhắn 
         # # Chọn channel đầu tiên
         # channels = wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, "[data-e2e='clan_page-channel_list-item']")))
@@ -44,6 +51,8 @@ def test_mezon_full_flow(driver, wait):
 
         # Delete Clan
         delete_clan(driver, wait, clan_name)
+
+        
  
     except Exception as e:
         # Chụp ảnh màn hình khi lỗi để dễ debug
