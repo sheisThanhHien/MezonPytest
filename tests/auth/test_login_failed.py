@@ -9,8 +9,8 @@ from constants import BASE_URL, EMAIL, INVALID_PASSWORD
 def test_mezon_login_failed():
     # Khởi tạo trình duyệt
     driver = webdriver.Chrome()
-    driver.maximize_window()                            # Mở toàn màn hình để dễ tìm Element
-    wait = WebDriverWait(driver, 15)             # Thiết lập bộ đếm thời gian chờ tối đa 15s
+    driver.maximize_window()                           
+    wait = WebDriverWait(driver, 15)             # thời gian chờ tối đa 15s
     try:
         driver.get(BASE_URL)
         login_homepage_btn = wait.until(EC.element_to_be_clickable((By.LINK_TEXT, "Login")))
