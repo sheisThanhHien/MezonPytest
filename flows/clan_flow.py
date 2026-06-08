@@ -3,6 +3,8 @@ from selenium.webdriver.support import expected_conditions as EC
 
 from pages import clancreation_page
 from pages.clancreation_page import CreateClanModal
+from pages.clandeletion_page import DeleteClanModal
+
 
 from utils.helpers import get_current_time
 
@@ -38,29 +40,9 @@ def create_clan(driver, wait):
 
 
 def delete_clan(driver, wait, clan_name):
-
-    wait.until(
-        EC.element_to_be_clickable(
-            (By.CSS_SELECTOR, "[data-e2e='clan_page-header-title-clan_name']"))).click()
-    clan_settings_menu = wait.until(
-        EC.presence_of_all_elements_located(
-            (By.CSS_SELECTOR, "[data-e2e='clan_page-header-modal_panel-item']")
-        )
-    )
-    clan_settings_menu[3].click()
-    wait.until(
-        EC.element_to_be_clickable(
-            (By.CSS_SELECTOR, "[data-e2e='clan_page-settings-sidebar-delete']")
-        )
-    ).click()
-    confirm_input = wait.until(
-        EC.presence_of_element_located(
-            (By.CSS_SELECTOR, "[data-e2e='clan_page-settings-modal-delete_clan-input']")
-        )
-    )
-    confirm_input.send_keys(clan_name)
-    wait.until(
-        EC.element_to_be_clickable(
-            (By.CSS_SELECTOR, "[data-e2e='clan_page-settings-modal-delete_clan-confirm']")
-        )
-    ).click()
+    clandeletion_page = DeleteClanModal(driver, wait)
+    clandeletion_page.open_clan_settings_menu()
+    clandeletion_page.click_settings_menu_item()
+    clandeletion_page.click_settings_sidebar_delete()
+    clandeletion_page.input_delete_clan_name(clan_name)
+    clandeletion_page.click_confirm_delete()

@@ -1,5 +1,5 @@
 from selenium.webdriver.common.by import By
-
+from selenium.webdriver.support import expected_conditions as EC
 from flows.auth_flow import login_email_password
 from flows.clan_flow import create_clan
 from flows.category_flow import create_category
@@ -17,11 +17,11 @@ def test_create_category(driver, wait):
     category_name = create_category(driver, wait)
 
     # Verify category exists
-    category_containers = driver.find_elements(
-        By.CSS_SELECTOR,
-        "[data-e2e='clan_page-side_bar-channel_list-category']"
+    category_containers = wait.until(
+        EC.presence_of_all_elements_located(
+            (By.CSS_SELECTOR, "[data-e2e='clan_page-side_bar-channel_list-category']")
+        )
     )
-
     is_found = False
 
     target_name = category_name.upper()
