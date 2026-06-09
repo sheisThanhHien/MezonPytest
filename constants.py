@@ -7,7 +7,7 @@ BASE_URL = "https://dev-mezon.nccsoft.vn/"
 # PASSWORD = "Thanhhien312@"
 
 # Account Test Dev
-EMAIL = "yocosa3965@crsay.com"
+EMAIL = "gidogoh414@baxidy.com"
 PASSWORD = "Thanhhien312@"
 INVALID_PASSWORD = PASSWORD + "@"
 

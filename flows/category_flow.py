@@ -17,8 +17,18 @@ def create_category(driver, wait):
     category_page.click_create_category_option()
     category_name = "Category " + get_current_time()
     category_page.input_category_name(category_name)
-    time.sleep(0.5)
     category_page.click_confirm_create_category()   
+    
+    # Wait for the category to be created
+    wait.until(
+        lambda d: any(
+            category_name.upper() in e.text.strip().upper()
+            for e in d.find_elements(
+                By.CSS_SELECTOR,
+                "[data-e2e='clan_page-side_bar-channel_list-category-name']"
+            )
+        )
+    )
 
     return category_name
 

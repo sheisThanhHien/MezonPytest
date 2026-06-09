@@ -6,6 +6,9 @@ def login_email_password(driver, wait):
     driver.get(BASE_URL)
     login_homepage_btn = wait.until(EC.element_to_be_clickable((By.LINK_TEXT, "Login")))
     login_homepage_btn.click()
+
+    driver.refresh()
+    
     email_password_option = wait.until(EC.element_to_be_clickable((By.LINK_TEXT, "Login with Email and Password")))
     email_password_option.click()
     email_field = wait.until(EC.presence_of_element_located((By.NAME, "email")))
@@ -14,4 +17,4 @@ def login_email_password(driver, wait):
     password_field.send_keys(PASSWORD)
     login_btn = wait.until(EC.element_to_be_clickable((By.ID, "sendOtpBtn")))
     login_btn.click()
-
+    
