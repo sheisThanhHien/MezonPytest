@@ -1,8 +1,13 @@
+import pytest
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
+
 from flows.auth_flow import login_email_password
 
 
+@pytest.mark.auth
+@pytest.mark.smoke
+@pytest.mark.regression
 def test_mezon_login_success(driver, wait):
     # Login
     login_email_password(driver, wait)

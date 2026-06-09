@@ -1,5 +1,7 @@
 import time
 import traceback
+
+import pytest
 from selenium import webdriver
 from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
@@ -22,6 +24,8 @@ def find_message_item_by_text(driver, expected_text):
     return None, None
 
 
+@pytest.mark.channels
+@pytest.mark.regression
 def test_send_message():
    
     # Khởi tạo trình duyệt

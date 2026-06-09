@@ -1,12 +1,15 @@
+import pytest
 from selenium.webdriver.common.by import By
 
 from flows.auth_flow import login_email_password
 from flows.clan_flow import create_clan, delete_clan
 from flows.category_flow import create_category, edit_category
-
 from utils.helpers import get_current_time
 
 
+@pytest.mark.categories
+@pytest.mark.regression
+@pytest.mark.multilang
 def test_edit_category(driver, wait):
 
     # Login
@@ -20,15 +23,17 @@ def test_edit_category(driver, wait):
 
     # Edit category
     new_category_name = "Category Edited " + get_current_time()
-
+    
     edit_category(
         driver,
         wait,
         category_name,
         new_category_name
     )
+    print(f"Old category: {category_name}")
+    print(f"New category: {new_category_name}")
 
-    # Verify
+    # Verify edited category
     category_containers = driver.find_elements(
         By.CSS_SELECTOR,
         "[data-e2e='clan_page-side_bar-channel_list-category']"
@@ -59,6 +64,6 @@ def test_edit_category(driver, wait):
             continue
 
     assert is_found
-
+    
     # Cleanup
     delete_clan(driver, wait, clan_name)

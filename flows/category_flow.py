@@ -1,5 +1,3 @@
-import time
-
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 
@@ -36,6 +34,10 @@ def create_category(driver, wait):
 
 def edit_category(driver, wait, old_category_name, new_category_name):
     category_page = EditCategoryModal(driver, wait)
+    
     category_page.open_edit_menu(old_category_name)
+    category_page.click_edit_category_option()
     category_page.input_category_name(new_category_name)
-    category_page.click_confirm_edit_category()
+    category_page.click_save_changes_button()
+
+    return new_category_name
