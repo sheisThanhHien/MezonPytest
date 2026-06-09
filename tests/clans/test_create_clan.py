@@ -1,3 +1,4 @@
+import pytest
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 
@@ -5,6 +6,10 @@ from flows.auth_flow import login_email_password
 from flows.clan_flow import create_clan, delete_clan
 
 
+@pytest.mark.clans
+@pytest.mark.smoke
+@pytest.mark.regression
+@pytest.mark.multilang
 def test_create_clan(driver, wait):
 
     # Login

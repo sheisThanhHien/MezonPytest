@@ -1,3 +1,4 @@
+import pytest
 from selenium.common.exceptions import StaleElementReferenceException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
@@ -28,6 +29,9 @@ def _category_exists(driver, wait, category_name):
     return False
 
 
+@pytest.mark.e2e
+@pytest.mark.regression
+@pytest.mark.multilang
 def test_mezon_full_flow(driver, wait):
     
     # LOGIN

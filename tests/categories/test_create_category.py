@@ -1,10 +1,16 @@
+import pytest
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
+
 from flows.auth_flow import login_email_password
 from flows.clan_flow import create_clan, delete_clan
 from flows.category_flow import create_category
 
 
+@pytest.mark.categories
+@pytest.mark.smoke
+@pytest.mark.regression
+@pytest.mark.multilang
 def test_create_category(driver, wait):
 
     # Login
@@ -53,6 +59,5 @@ def test_create_category(driver, wait):
 
     assert is_found, f"Cannot find category '{target_name}'"
     print(f"Category '{target_name}' found")
-
     # Cleanup
     delete_clan(driver, wait, clan_name)

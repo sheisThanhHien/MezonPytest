@@ -1,4 +1,6 @@
 import time
+
+import pytest
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -6,6 +8,8 @@ from selenium.webdriver.support import expected_conditions as EC
 
 from constants import BASE_URL, EMAIL, INVALID_PASSWORD
 
+@pytest.mark.auth
+@pytest.mark.regression
 def test_mezon_login_failed():
     # Khởi tạo trình duyệt
     driver = webdriver.Chrome()
