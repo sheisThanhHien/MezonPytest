@@ -6,6 +6,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from flows.auth_flow import login_email_password
 from flows.clan_flow import create_clan, delete_clan
 from flows.category_flow import create_category, edit_category
+from flows.channel_flow import create_text_channel
 from utils.helpers import get_current_time
 
 
@@ -86,6 +87,11 @@ def test_mezon_full_flow(driver, wait):
         f"Cannot find edited category '{edited_category_name.upper()}'"
     )
     print("✓ Category edit verified")
+
+    # CREATE TEXT CHANNEL
+    print("\n========== CREATE TEXT CHANNEL ==========")
+    channel_name = create_text_channel(driver, wait)
+    print(f"Created channel: {channel_name}")
 
 
     # Delete clan

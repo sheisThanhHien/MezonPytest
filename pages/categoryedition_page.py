@@ -17,7 +17,7 @@ class EditCategoryModal:
         By.CSS_SELECTOR, "[data-e2e='clan_page-channel_list-panel-item']"
     )
     EDIT_CATEGORY_INPUT = (
-        By.CLASS_NAME, "text-theme-primary-active outline-none w-full h-10 p-[10px] bg-theme-input border-theme-primary text-base rounded placeholder:text-sm"
+        By.CSS_SELECTOR, "[data-e2e='clan_page-modal-edit_category-input-category_name']"
     )
     EDIT_CATEGORY_SAVECHANGES_BUTTON = (
         By.CSS_SELECTOR, "[data-e2e='clan_page-modal-edit_category-button-confirm']"

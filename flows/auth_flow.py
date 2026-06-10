@@ -7,7 +7,7 @@ def login_email_password(driver, wait):
     login_homepage_btn = wait.until(EC.element_to_be_clickable((By.LINK_TEXT, "Login")))
     login_homepage_btn.click()
 
-    driver.refresh()
+    # driver.refresh()
     
     email_password_option = wait.until(EC.element_to_be_clickable((By.LINK_TEXT, "Login with Email and Password")))
     email_password_option.click()
