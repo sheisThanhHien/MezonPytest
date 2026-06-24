@@ -26,6 +26,10 @@ class CreateClanModal:
         By.CSS_SELECTOR,"button[data-e2e='button-base']"
     )
 
+    CLAN_HEADER = (
+        By.CSS_SELECTOR, "[data-e2e='clan_page-header-title-clan_name']"
+    )
+
     # CONSTRUCTORS
     def __init__ (self, driver, wait):
             self.driver = driver
