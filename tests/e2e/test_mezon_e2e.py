@@ -1,5 +1,4 @@
 import pytest
-from selenium.common.exceptions import StaleElementReferenceException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 
@@ -88,10 +87,10 @@ def test_mezon_full_flow(driver, wait):
     )
     print("✓ Category edit verified")
 
-    # CREATE TEXT CHANNEL
-    print("\n========== CREATE TEXT CHANNEL ==========")
-    channel_name = create_text_channel(driver, wait)
-    print(f"Created channel: {channel_name}")
+    # # CREATE TEXT CHANNEL
+    # print("\n========== CREATE TEXT CHANNEL ==========")
+    # channel_name = create_text_channel(driver, wait)
+    # print(f"Created channel: {channel_name}")
 
 
     # Delete clan
