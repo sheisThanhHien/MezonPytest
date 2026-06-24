@@ -75,4 +75,8 @@ class CreateClanModal:
         )
         create_button.click()
 
-    
+    def verify_clan_created(self, clan_name):
+        target = clan_name.upper()
+        return self.wait.until(
+            lambda d: d.find_element(*self.CLAN_HEADER).text.strip().upper() == target
+        )
