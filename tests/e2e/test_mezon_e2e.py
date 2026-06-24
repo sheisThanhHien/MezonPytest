@@ -38,3 +38,11 @@ def test_mezon_full_flow(driver, wait):
     _section("DELETE CLAN")
     delete_clan(driver, wait, clan_name)
     print(f"Deleted clan: {clan_name}")
+
+    _section("CREATE TEXT CHANNEL")
+    channel_name = create_text_channel(driver, wait)
+    print(f"Created channel: {channel_name}")
+    print("✓ Text channel verified")
+
+    # _section("EDIT TEXT CHANNEL")
+
