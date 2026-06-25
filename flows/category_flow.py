@@ -43,7 +43,7 @@ def edit_category(driver, wait, old_category_name, new_category_name):
     category_page.input_category_name(new_category_name)
     time.sleep(1)
     category_page.click_save_changes_button()
-    time.sleep(2)
+    time.sleep(1)
     category_page.click_exit_category_edit_button()
     category_page.verify_category_name_displayed(new_category_name)
 
