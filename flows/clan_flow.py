@@ -1,11 +1,5 @@
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as EC
-
-from pages import clancreation_page
 from pages.clancreation_page import CreateClanModal
 from pages.clandeletion_page import DeleteClanModal
-
-
 from utils.helpers import get_current_time
 
 

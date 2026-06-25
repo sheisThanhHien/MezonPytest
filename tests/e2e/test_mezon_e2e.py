@@ -34,15 +34,14 @@ def test_mezon_full_flow(driver, wait):
     edit_category(driver, wait, category_name, edited_category_name)
     print(f"Edited: {category_name} → {edited_category_name}")
     print("✓ Category edit verified")
+    
+    _section("CREATE TEXT CHANNEL")
+    channel_name = create_text_channel(driver, wait, edited_category_name)
+    print(f"Created channel: {channel_name} in category: {edited_category_name}")
+    print("✓ Text channel verified")
 
     _section("DELETE CLAN")
     delete_clan(driver, wait, clan_name)
     print(f"Deleted clan: {clan_name}")
 
-    _section("CREATE TEXT CHANNEL")
-    channel_name = create_text_channel(driver, wait)
-    print(f"Created channel: {channel_name}")
-    print("✓ Text channel verified")
-
-    # _section("EDIT TEXT CHANNEL")
 
