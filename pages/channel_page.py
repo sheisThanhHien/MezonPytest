@@ -140,3 +140,18 @@ class ChannelPage:
 
         return self.wait.until(channel_found)
 
+    def open_channel(self, channel_name):
+        def channel_clickable(driver):
+            try:
+                for item in driver.find_elements(*self.CHANNEL_LIST_ITEM):
+                    name_elements = item.find_elements(*self.CHANNEL_LIST_ITEM_NAME)
+                    texts = [el.text for el in name_elements] if name_elements else [item.text]
+                    if any(self._matches_channel_name(channel_name, text) for text in texts):
+                        item.click()
+                        return True
+            except StaleElementReferenceException:
+                pass
+            return False
+
+        self.wait.until(channel_clickable)
+

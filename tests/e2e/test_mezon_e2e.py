@@ -1,10 +1,11 @@
 import pytest
-
+from utils.helpers import get_current_time
 from flows.auth_flow import login_email_password
 from flows.clan_flow import create_clan, delete_clan
 from flows.category_flow import create_category, edit_category
 from flows.channel_flow import create_text_channel
-from utils.helpers import get_current_time
+from flows.message_flow import send_text_message
+
 
 
 def _section(title):
@@ -13,7 +14,6 @@ def _section(title):
 
 @pytest.mark.e2e
 @pytest.mark.regression
-@pytest.mark.multilang
 def test_mezon_full_flow(driver, wait):
     _section("LOGIN")
     login_email_password(driver, wait)
@@ -39,6 +39,11 @@ def test_mezon_full_flow(driver, wait):
     channel_name = create_text_channel(driver, wait, edited_category_name)
     print(f"Created channel: {channel_name} in category: {edited_category_name}")
     print("✓ Text channel verified")
+
+    _section("SEND TEXT MESSAGE")
+    message = send_text_message(driver, wait, channel_name)
+    print(f"Sent message: {message}")
+    print("✓ Message verified")
 
     _section("DELETE CLAN")
     delete_clan(driver, wait, clan_name)
