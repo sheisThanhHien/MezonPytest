@@ -4,7 +4,7 @@ from flows.auth_flow import login_email_password
 from flows.clan_flow import create_clan, delete_clan
 from flows.category_flow import create_category, edit_category
 from flows.channel_flow import create_text_channel
-from flows.message_flow import send_text_message
+from flows.message_flow import send_text_message, edit_text_message
 
 
 
@@ -44,6 +44,11 @@ def test_mezon_full_flow(driver, wait):
     message = send_text_message(driver, wait, channel_name)
     print(f"Sent message: {message}")
     print("✓ Message verified")
+
+    _section("EDIT MESSAGE")
+    edited_message = edit_text_message(driver, wait, message)
+    print(f"Edited message: {message} -> {edited_message}")
+    print("Edited message verified")
 
     _section("DELETE CLAN")
     delete_clan(driver, wait, clan_name)

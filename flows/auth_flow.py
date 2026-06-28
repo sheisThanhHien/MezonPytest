@@ -17,4 +17,13 @@ def login_email_password(driver, wait):
     password_field.send_keys(PASSWORD)
     login_btn = wait.until(EC.element_to_be_clickable((By.ID, "sendOtpBtn")))
     login_btn.click()
-    
+
+    wait.until(
+        EC.invisibility_of_element_located((By.CSS_SELECTOR, ".splash-screen"))
+    )
+    wait.until(
+        EC.presence_of_element_located(
+            (By.CSS_SELECTOR, "[data-e2e='clan_page-side_bar-button-add_clan']")
+        )
+    )
+

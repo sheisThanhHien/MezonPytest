@@ -16,3 +16,14 @@ def send_text_message(driver, wait, channel_name=None):
     message_page.verify_message_sent(message)
 
     return message
+
+
+def edit_text_message(driver, wait, original_message, new_message=None):
+    if new_message is None:
+        new_message = "Edited " + get_current_time()
+
+    message_page = MessagePage(driver, wait)
+    message_page.edit_message(original_message, new_message)
+    message_page.verify_message_text(new_message)
+
+    return new_message
