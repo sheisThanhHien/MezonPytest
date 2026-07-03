@@ -52,7 +52,7 @@ class EditCategoryModal:
         raise AssertionError(f"Cannot find category '{category_name}'")
 
 
-    def open_edit_menu(self, category_name):
+    def open_category_context_menu(self, category_name):
         # Right-click on target category
         target_container = self.find_category_container(category_name)
         ActionChains(self.driver).context_click(target_container).perform()

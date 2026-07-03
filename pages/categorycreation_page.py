@@ -17,6 +17,9 @@ class CreateCategoryModal:
     CREATE_CATEGORY_CONFIRM_BUTTON = (
         By.CSS_SELECTOR, "[data-e2e='clan_page-modal-create_category-button-confirm']"
     )
+    CATEGORY_NAME = (
+        By.CSS_SELECTOR, "[data-e2e='clan_page-side_bar-channel_list-category-name']"
+    )
 
     def __init__(self, driver, wait):
         self.driver = driver
@@ -49,3 +52,14 @@ class CreateCategoryModal:
         self.wait.until(
             EC.element_to_be_clickable(self.CREATE_CATEGORY_CONFIRM_BUTTON)
         ).click()
+
+    def verify_category_created(self, category_name):
+        def category_exists(driver):
+            categories = driver.find_elements(*self.CATEGORY_NAME)
+            for category in categories:
+                if category.text.strip().upper() == category_name.upper():
+                    return True
+            return False
+        return self.wait.until(category_exists)
+
+

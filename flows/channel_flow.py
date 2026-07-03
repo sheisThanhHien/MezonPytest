@@ -1,6 +1,7 @@
 import time
 
 from pages.channel_page import ChannelPage
+from pages.channeledition_page import ChannelEditionPage
 from utils.helpers import get_current_time
 
 
@@ -15,3 +16,14 @@ def create_text_channel(driver, wait, category_name=None):
     channel_page.verify_channel_created(channel_name, category_name)
 
     return channel_name
+
+
+def edit_text_channel_name(driver, wait, channel_name, new_channel_name):
+    channeledition_page = ChannelEditionPage(driver, wait)
+    channeledition_page.open_channel_context_menu(channel_name)
+    channeledition_page.click_edit_channel_option()
+    channeledition_page.input_channel_name(new_channel_name)
+    channeledition_page.click_save_changes_button()
+    channeledition_page.verify_sidebar_new_channel_name(new_channel_name)
+
+    return new_channel_name
