@@ -40,6 +40,9 @@ def test_mezon_full_flow(driver, wait):
     print(f"Created channel: {channel_name} in category: {edited_category_name}")
     print("✓ Text channel verified")
 
+
+    
+
     _section("SEND TEXT MESSAGE")
     message = send_text_message(driver, wait, channel_name)
     print(f"Sent message: {message}")
