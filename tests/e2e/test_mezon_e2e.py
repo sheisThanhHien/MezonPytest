@@ -4,7 +4,7 @@ from flows.auth_flow import login_email_password
 from flows.clan_flow import create_clan, delete_clan
 from flows.category_flow import create_category, edit_category
 from flows.channel_flow import create_text_channel
-from flows.message_flow import send_text_message, edit_text_message, pin_message
+from flows.message_flow import send_text_message, edit_text_message, pin_message, create_topic_from_message
 
 
 
@@ -54,6 +54,11 @@ def test_mezon_full_flow(driver, wait):
     pinned_message = pin_message(driver, wait, edited_message)
     print(f"Pinned message: {edited_message} -> {pinned_message}")
     print("Pinned message verified")
+
+    _section("CREATE TOPIC")
+    topic_message = create_topic_from_message(driver, wait, edited_message)
+    print(f"Created topic: {edited_message} -> {topic_message}")
+    print("Topic message verified")
 
     _section("DELETE CLAN")
     delete_clan(driver, wait, clan_name)

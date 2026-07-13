@@ -64,16 +64,15 @@ class MessagePage:
                 return False
 
             for item in menu.find_elements(By.XPATH, menu_item_xpath):
-                if not item.is_displayed():
-                    continue
                 try:
-                    path_d = item.find_element(
-                        By.CSS_SELECTOR, "svg path"
-                    ).get_attribute("d")
-                except Exception:
+                    if not item.is_displayed():
+                        continue
+                    for path in item.find_elements(By.CSS_SELECTOR, "svg path"):
+                        path_d = path.get_attribute("d") or ""
+                        if icon_path_fragment in path_d:
+                            return item
+                except StaleElementReferenceException:
                     continue
-                if path_d and icon_path_fragment in path_d:
-                    return item
             return False
 
         item = self.wait.until(item_visible)
