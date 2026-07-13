@@ -4,6 +4,7 @@ from pages.channel_page import ChannelPage
 from pages.message_page import MessagePage
 from pages.messageedit_page import MessageEditPage
 from pages.messagepin_page import MessagePinPage
+from pages.messagetopic_page import MessageTopicPage
 from utils.helpers import get_current_time
 
 
@@ -36,3 +37,14 @@ def pin_message(driver, wait, message):
     message_pin_page.verify_message_pinned(message)
 
     return message
+
+
+def create_topic_from_message(driver, wait, source_message, topic_message=None):
+    if topic_message is None:
+        topic_message = "Topic " + get_current_time()
+
+    message_topic_page = MessageTopicPage(driver, wait)
+    message_topic_page.create_topic(source_message, topic_message)
+    message_topic_page.close_topic()
+
+    return topic_message
