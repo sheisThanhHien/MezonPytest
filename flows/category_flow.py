@@ -9,7 +9,7 @@ def create_category(driver, wait):
 
     category_page = CreateCategoryModal(driver, wait)
     category_page.open_clan_settings_menu()
-    category_page.click_show_empty_categories()
+    # category_page.click_show_empty_categories()
     category_page.click_create_category_option()
     category_name = "Category " + get_current_time()
     category_page.input_category_name(category_name)
