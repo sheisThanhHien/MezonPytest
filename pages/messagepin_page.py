@@ -1,6 +1,7 @@
 import time
 
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 
 from pages.message_page import MessagePage
@@ -75,9 +76,14 @@ class MessagePinPage(MessagePage):
             f"Could not find pinned message '{message}' in pin list."
         )
 
+    def _close_pin_list(self):
+        self.driver.find_element(By.TAG_NAME, "body").send_keys(Keys.ESCAPE)
+        time.sleep(0.5)
+
     def verify_message_pinned(self, message):
         self._verify_pin_system_message()
         self._open_pin_list()
         self._verify_message_in_pin_list(message)
+        self._close_pin_list()
 
         return message

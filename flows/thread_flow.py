@@ -10,6 +10,7 @@ def create_public_thread_from_thread_list(driver, wait, thread_name=None, starte
         starter_message = "Starter " + get_current_time()
 
     thread_page = ThreadPage(driver, wait)
+    thread_page.dismiss_overlays()
     thread_page.create_public_thread(thread_name, starter_message)
     thread_page.verify_thread_in_sidebar(thread_name)
     thread_page.verify_thread_created_system_message(thread_name)
@@ -19,5 +20,30 @@ def create_public_thread_from_thread_list(driver, wait, thread_name=None, starte
     thread_page.verify_thread_in_thread_list(thread_name, starter_message)
     thread_page.jump_to_thread_from_system_message(thread_name)
     thread_page.verify_jump_to_thread(thread_name, starter_message)
+    thread_page.close_thread()
+
+    return thread_name, starter_message
+
+
+def create_thread_from_message(
+    driver,
+    wait,
+    source_message,
+    thread_name=None,
+    starter_message=None,
+):
+    if thread_name is None:
+        thread_name = "Thread " + get_current_time()
+
+    if starter_message is None:
+        starter_message = "Starter " + get_current_time()
+
+    thread_page = ThreadPage(driver, wait)
+    thread_page.dismiss_overlays()
+    thread_page.create_thread_from_message(
+        source_message,
+        thread_name,
+        starter_message,
+    )   
 
     return thread_name, starter_message
