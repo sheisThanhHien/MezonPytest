@@ -1,3 +1,4 @@
+from selenium.common.exceptions import ElementClickInterceptedException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 
@@ -38,8 +39,17 @@ class CreateClanModal:
     # ACTIONS
     def click_create_clan_button(self):
         self.wait.until(
-            EC.element_to_be_clickable(self.CREATE_CLAN_BUTTON)
-        ).click()
+            EC.invisibility_of_element_located((By.CSS_SELECTOR, ".splash-screen"))
+        )
+        button = self.wait.until(
+            EC.presence_of_element_located(self.CREATE_CLAN_BUTTON)
+        )
+        try:
+            self.wait.until(
+                EC.element_to_be_clickable(self.CREATE_CLAN_BUTTON)
+            ).click()
+        except ElementClickInterceptedException:
+            self.driver.execute_script("arguments[0].click();", button)
 
     def wait_create_clan_modal_visible(self):
         return self.wait.until(

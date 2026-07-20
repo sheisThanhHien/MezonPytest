@@ -12,7 +12,10 @@ from flows.message_flow import (
     pin_message,
     create_topic_from_message,
 )
-from flows.thread_flow import create_public_thread_from_thread_list
+from flows.thread_flow import (
+    create_public_thread_from_thread_list,
+    create_thread_from_message,
+)
 
 
 @pytest.mark.e2e
@@ -65,7 +68,19 @@ def test_mezon_full_flow(driver, wait):
         section.add(f"Created topic: {edited_message} -> {topic_message}")
         section.add("Topic message verified")
 
-    with e2e_section("CREATE PUBLIC THREAD") as section:
+    with e2e_section("CREATE THREAD FROM MESSAGE") as section:
+        thread_name, starter_message = create_thread_from_message(
+            driver,
+            wait,
+            edited_message,
+        )
+        section.add(f"Created thread: {thread_name}")
+        section.add(f"Starter message: {starter_message}")
+        section.add("Thread verified in sidebar and thread list")
+        section.add("System message verified")
+        section.add("Source message and starter message verified")
+
+    with e2e_section("CREATE PUBLIC THREAD FROM THREAD LIST") as section:
         thread_name, starter_message = create_public_thread_from_thread_list(
             driver, wait
         )
@@ -73,6 +88,7 @@ def test_mezon_full_flow(driver, wait):
         section.add(f"Starter message: {starter_message}")
         section.add("Thread verified in sidebar and thread list")
         section.add("System message and jump to thread verified")
+
 
     with e2e_section("DELETE CLAN") as section:
         delete_clan(driver, wait, clan_name)
