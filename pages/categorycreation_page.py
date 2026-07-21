@@ -1,47 +1,27 @@
-import time
-
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 
+from pages.clan_header_page import ClanHeaderPage
 
-class CreateCategoryModal:
-    CLAN_HEADER_TITLE = (
-        By.CSS_SELECTOR, "[data-e2e='clan_page-header-title-clan_name']"
-    )
-    CLAN_SETTINGS_MENU_ITEMS = (
-        By.CSS_SELECTOR, "[data-e2e='clan_page-header-modal_panel-item']"
-    )
+
+class CreateCategoryPage(ClanHeaderPage):
+    CREATE_CATEGORY_MENU_LABEL = "Create Category"
     CREATE_CATEGORY_INPUT = (
-        By.CSS_SELECTOR, "[data-e2e='clan_page-modal-create_category-input-category_name']"
+        By.CSS_SELECTOR,
+        "[data-e2e='clan_page-modal-create_category-input-category_name']",
     )
     CREATE_CATEGORY_CONFIRM_BUTTON = (
-        By.CSS_SELECTOR, "[data-e2e='clan_page-modal-create_category-button-confirm']"
+        By.CSS_SELECTOR,
+        "[data-e2e='clan_page-modal-create_category-button-confirm']",
     )
     CATEGORY_NAME = (
-        By.CSS_SELECTOR, "[data-e2e='clan_page-side_bar-channel_list-category-name']"
+        By.CSS_SELECTOR,
+        "[data-e2e='clan_page-side_bar-channel_list-category-name']",
     )
 
-    def __init__(self, driver, wait):
-        self.driver = driver
-        self.wait = wait
-
-    def open_clan_settings_menu(self):
-        self.wait.until(
-            EC.element_to_be_clickable(self.CLAN_HEADER_TITLE)
-        ).click()
-
-    def click_settings_menu_item(self, index):
-        menu_items = self.wait.until(
-            EC.presence_of_all_elements_located(self.CLAN_SETTINGS_MENU_ITEMS)
-        )
-        menu_items[index].click()
-
-    def click_show_empty_categories(self):
-        self.click_settings_menu_item(5)
-        time.sleep(0.5)
-
     def click_create_category_option(self):
-        self.click_settings_menu_item(0)
+        self.open_settings_menu()
+        self.click_settings_menu_item(self.CREATE_CATEGORY_MENU_LABEL)
 
     def input_category_name(self, category_name):
         self.wait.until(
@@ -60,6 +40,9 @@ class CreateCategoryModal:
                 if category.text.strip().upper() == category_name.upper():
                     return True
             return False
+
         return self.wait.until(category_exists)
 
 
+# Backward-compatible alias
+CreateCategoryModal = CreateCategoryPage

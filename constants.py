@@ -1,21 +1,16 @@
-# BASE_URL = "https://mezon.ai"
-# URL Test Dev
-BASE_URL = "https://dev-mezon.nccsoft.vn/"
+import os
 
-# Account Test Prod
-# EMAIL = "yocosa3965@crsay.com"
-# PASSWORD = "Thanhhien312@"
+try:
+    from dotenv import load_dotenv
 
-# Account Test Dev
-EMAIL = "gidogoh414@baxidy.com"
-PASSWORD = "Thanhhien312@"
-INVALID_PASSWORD = PASSWORD + "@"
+    load_dotenv()
+except ImportError:
+    pass
 
+BASE_URL = os.getenv("MEZON_BASE_URL", "https://dev-mezon.nccsoft.vn/")
+EMAIL = os.getenv("MEZON_EMAIL", "hien.nguyenthanh+777@ncc.asia")
+PASSWORD = os.getenv("MEZON_PASSWORD", "Autotest777@")
 
-import datetime
-
-def get_current_time(): 
-    return datetime.datetime.now().strftime("%Y%m%d %H%M%S") 
-
-
-
+WAIT_TIMEOUT = int(os.getenv("MEZON_WAIT_TIMEOUT", "15"))
+POLL_TIMEOUT = int(os.getenv("MEZON_POLL_TIMEOUT", "120"))
+BROWSER_TEARDOWN_SLEEP = int(os.getenv("MEZON_BROWSER_TEARDOWN_SLEEP", "5"))

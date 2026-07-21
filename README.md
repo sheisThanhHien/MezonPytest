@@ -1,177 +1,107 @@
 # Mezon Pytest — E2E Automation
 
-End-to-end test suite for the [Mezon](https://mezon.ai) platform, built with **Selenium WebDriver** and **pytest**. The project simulates real user interactions in the browser: login, create/delete clans, manage categories, and send messages.
+End-to-end test suite for the [Mezon](https://mezon.ai) platform, built with **Selenium WebDriver** and **pytest**.
 
 ## Architecture
 
-The project uses the **Page Object Model (POM)** combined with a **Flow layer**:
+The project uses **Page Object Model (POM)** + **Flow layer**:
 
 | Directory | Role |
 |-----------|------|
-| `pages/` | Defines locators and actions for each screen/modal |
-| `flows/` | Groups business steps into reusable flows (login, create clan, create category, etc.) |
-| `tests/` | Pytest test cases that call flows and assert results |
-| `utils/` | Shared utilities (e.g. timestamp generation) |
-| `constants.py` | URL, test account credentials, environment configuration |
-| `conftest.py` | Pytest fixtures: Chrome driver setup and `WebDriverWait` |
+| `pages/` | Locators, UI actions, verify methods |
+| `flows/` | Business steps reused by tests |
+| `tests/` | Pytest cases — call flows only |
+| `utils/` | Shared helpers |
+| `constants.py` | Environment config (URL, credentials, timeouts) |
+| `conftest.py` | Shared fixtures, screenshot on failure, e2e report |
 
 ```
 Mezon_Pytest/
 ├── conftest.py
 ├── constants.py
-├── requirements.txt
+├── .env.example
 ├── flows/
 │   ├── auth_flow.py
 │   ├── clan_flow.py
-│   └── category_flow.py
+│   ├── category_flow.py
+│   ├── channel_flow.py
+│   ├── message_flow.py
+│   └── thread_flow.py
 ├── pages/
+│   ├── base_page.py
+│   ├── auth_page.py
+│   ├── clan_header_page.py
 │   ├── clancreation_page.py
 │   ├── clandeletion_page.py
 │   ├── categorycreation_page.py
-│   └── categoryedition_page.py
-├── tests/
-│   ├── auth/
-│   ├── clans/
-│   ├── categories/
-│   ├── channels/
-│   └── e2e/
-└── utils/
-    └── helpers.py
+│   ├── categoryedition_page.py
+│   ├── channel_page.py
+│   ├── message_page.py
+│   ├── thread_base_page.py
+│   ├── thread_from_message_page.py
+│   └── thread_list_page.py
+└── tests/
+    ├── auth/
+    ├── clans/
+    ├── categories/
+    ├── channels/
+    ├── messages/
+    ├── threads/
+    └── e2e/
 ```
 
-## Requirements
+## Conventions
 
-- Python 3.8+
-- Google Chrome
-- [ChromeDriver](https://chromedriver.chromium.org/) compatible with your installed Chrome version (or use Selenium Manager built into Selenium 4.6+)
+1. **Page** — locator + action + verify UI
+2. **Flow** — ghép bước nghiệp vụ, gọi verify từ page
+3. **Test** — chỉ gọi flow, không lặp verify
+4. **Locator** — ưu tiên `data-e2e`
+5. **Menu clan** — click theo label text (`"Clan Settings"`, `"Create Category"`), không dùng index
 
-## Installation
+## Setup
 
 ```bash
-# Clone the repository and navigate to the project directory
-cd Mezon_Pytest
-
-# Create a virtual environment (recommended)
 python3 -m venv .venv
-source .venv/bin/activate   # Linux/macOS
-# .venv\Scripts\activate    # Windows
-
-# Install dependencies
+source .venv/bin/activate
 pip install -r requirements.txt
+cp .env.example .env   # chỉnh credential tại đây
 ```
 
 ## Configuration
 
-Edit `constants.py` before running tests:
+Biến môi trường (hoặc file `.env`):
 
-```python
-BASE_URL = "https://dev-mezon.nccsoft.vn/"   # Test environment URL
-EMAIL = "your-test-email@example.com"
-PASSWORD = "your-password"
-INVALID_PASSWORD = PASSWORD + "@"            # Used for failed login tests
-```
-
-You can switch between **dev** and **production** environments by commenting/uncommenting the corresponding lines in this file.
+| Variable | Description |
+|----------|-------------|
+| `MEZON_BASE_URL` | Test environment URL |
+| `MEZON_EMAIL` | Test account email |
+| `MEZON_PASSWORD` | Test account password |
+| `MEZON_WAIT_TIMEOUT` | WebDriverWait timeout (default: 15) |
+| `MEZON_POLL_TIMEOUT` | Poll verify timeout (default: 120) |
 
 ## Running Tests
 
 ```bash
-# Run all tests
-pytest
-
-# Run with verbose output
-pytest -v
-
-# Run by group
-pytest tests/auth/
-pytest tests/clans/
-pytest tests/categories/
-pytest tests/channels/
-pytest tests/e2e/
-
-# Run a specific file
-pytest tests/e2e/test_mezon_e2e.py
-
-# Run a specific test case
-pytest tests/auth/test_login_success.py::test_mezon_login_success
+pytest                          # all tests
+pytest tests/clans/ -v -s
+pytest tests/threads/ -v -s
+pytest tests/e2e/ -m e2e -v -s
 ```
 
-## Test Suite
+## Test Groups
 
-### Auth (`tests/auth/`)
-
-| File | Description |
-|------|-------------|
-| `test_login_success.py` | Successful login with email and password |
-| `test_login_failed.py` | Login with wrong password, verify error message |
-
-### Clans (`tests/clans/`)
-
-| File | Description |
-|------|-------------|
-| `test_create_clan.py` | Create a new clan and verify the name in the header |
-| `test_delete_clan.py` | Delete a clan and verify it is removed from the sidebar |
-
-### Categories (`tests/categories/`)
-
-| File | Description |
-|------|-------------|
-| `test_create_category.py` | Create a category in a clan and verify it appears in the sidebar |
-| `test_edit_category.py` | Rename a category and verify the new name |
-
-### Channels (`tests/channels/`)
-
-| File | Description |
-|------|-------------|
-| `test_send_message.py` | Send a message in a channel and verify it displays correctly |
-
-### E2E (`tests/e2e/`)
-
-| File | Description |
-|------|-------------|
-| `test_mezon_e2e.py` | Full flow: login → create clan → create category → edit category → delete clan |
-
-## Core Flows
-
-### Login (`flows/auth_flow.py`)
-
-1. Open `BASE_URL`
-2. Click **Login** → refresh the page
-3. Select **Login with Email and Password**
-4. Enter email, password, and submit
-
-### Create / Delete Clan (`flows/clan_flow.py`)
-
-- `create_clan()` — open the create clan modal, select "Create my own", enter a name (with timestamp), and confirm
-- `delete_clan()` — open settings, delete the clan by re-entering the clan name
-
-### Category Management (`flows/category_flow.py`)
-
-- `create_category()` — enable empty categories display, create a new category
-- `edit_category()` — open the category edit menu and rename it
-
-## Fixtures
-
-`conftest.py` provides two shared fixtures:
-
-- **`driver`** — initializes `webdriver.Chrome()`, maximizes the window, and quits after the test finishes
-- **`wait`** — `WebDriverWait(driver, 15)` with a 15-second timeout
-
-Some tests (`test_login_failed`, `test_send_message`) manage their own driver instead of using the fixture.
+| Marker | Directory |
+|--------|-----------|
+| `auth` | `tests/auth/` |
+| `clans` | `tests/clans/` |
+| `categories` | `tests/categories/` |
+| `channels` | `tests/channels/` |
+| `messages` | `tests/messages/` |
+| `threads` | `tests/threads/` |
+| `e2e` | `tests/e2e/` |
 
 ## Notes
 
-- Tests that create dynamic data (clans, categories) use timestamps via `get_current_time()` to avoid name collisions.
-- Tests that create clans typically **clean up** with `delete_clan()` at the end.
-- Locators prefer the `data-e2e` attribute for better stability than CSS classes.
-- Error screenshots are saved to the `evidence/` directory (ignored in git).
-
-## Dependencies
-
-```
-selenium
-pytest
-webdriver-manager
-```
-
-See [`requirements.txt`](requirements.txt) for details.
+- Dynamic test data dùng timestamp qua `utils.helpers.get_current_time()`
+- Screenshot tự động lưu vào `evidence/` khi test fail
+- E2E report HTML/JSON khi chạy với `-m e2e`
