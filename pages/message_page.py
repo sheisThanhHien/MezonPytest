@@ -6,16 +6,14 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 
+from pages.base_page import BasePage
 
-class MessagePage:
+
+class MessagePage(BasePage):
     CHAT_INPUT = (By.CSS_SELECTOR, "[data-e2e='mention-input']")
     MESSAGE_ITEM = (By.CSS_SELECTOR, "[data-e2e='message-item']")
     MESSAGE_TEXT = (By.XPATH, ".//div[contains(@class,'text-theme-message')]")
     CONTEXT_MENU = (By.CSS_SELECTOR, "div.contexify[role='menu']")
-
-    def __init__(self, driver, wait):
-        self.driver = driver
-        self.wait = wait
 
     def _normalize_message_text(self, text):
         return text.replace("(edited)", "").strip()
@@ -27,19 +25,19 @@ class MessagePage:
         return self._normalize_message_text(text_nodes[0].text)
 
     def _find_message_item_by_text(self, message):
-        deadline = time.time() + 120
+        return self.poll_until(
+            lambda: self._find_message_item_now(message),
+            f"Could not find message '{message}'.",
+        )
 
-        while time.time() < deadline:
-            for item in reversed(self.driver.find_elements(*self.MESSAGE_ITEM)):
-                try:
-                    if self._get_message_text(item) == message:
-                        return item
-                except StaleElementReferenceException:
-                    continue
-
-            time.sleep(1)
-
-        raise AssertionError(f"Could not find message '{message}'.")
+    def _find_message_item_now(self, message):
+        for item in reversed(self.driver.find_elements(*self.MESSAGE_ITEM)):
+            try:
+                if self._get_message_text(item) == message:
+                    return item
+            except StaleElementReferenceException:
+                continue
+        return None
 
     def _open_context_menu(self, item):
         self.driver.execute_script(
@@ -86,9 +84,7 @@ class MessagePage:
         chat_input.send_keys(Keys.ENTER)
 
     def verify_message_sent(self, message):
-        deadline = time.time() + 120
-
-        while time.time() < deadline:
+        def message_is_sent():
             for item in reversed(self.driver.find_elements(*self.MESSAGE_ITEM)):
                 try:
                     text_nodes = item.find_elements(*self.MESSAGE_TEXT)
@@ -106,7 +102,9 @@ class MessagePage:
                         return message
                 except StaleElementReferenceException:
                     continue
+            return None
 
-            time.sleep(1)
-
-        raise AssertionError(f"Could not find sent message '{message}'.")
+        return self.poll_until(
+            message_is_sent,
+            f"Could not find sent message '{message}'.",
+        )

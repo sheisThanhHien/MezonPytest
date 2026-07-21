@@ -97,4 +97,7 @@ class EditCategoryModal:
             category_name.upper() in e.text.strip().upper()
             for e in d.find_elements(*self.CATEGORY_NAME)
         )
-    ) 
+    )
+
+
+EditCategoryPage = EditCategoryModal
