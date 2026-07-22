@@ -8,6 +8,7 @@ from flows.category_flow import create_category, edit_category
 from flows.channel_flow import create_text_channel
 from flows.message_flow import (
     send_text_message,
+    send_multiline_message,
     edit_text_message,
     pin_message,
     create_topic_from_message,
@@ -50,6 +51,11 @@ def test_mezon_full_flow(driver, wait):
 
     with e2e_section("SEND TEXT MESSAGE") as section:
         message = send_text_message(driver, wait, channel_name)
+        section.add(f"Sent message: {message}")
+        section.add("Message verified")
+
+    with e2e_section("SEND MULTILINE MESSAGE") as section:
+        message = send_multiline_message(driver, wait, channel_name)
         section.add(f"Sent message: {message}")
         section.add("Message verified")
 

@@ -108,3 +108,19 @@ class MessagePage(BasePage):
             message_is_sent,
             f"Could not find sent message '{message}'.",
         )
+
+    def send_multiline_message(self, message):
+        chat_input = self.wait.until(EC.presence_of_element_located(self.CHAT_INPUT))
+
+        lines = message.split("\n")
+
+        for index, line in enumerate(lines):
+            chat_input.send_keys(line)
+
+            last_line = index == len(lines) - 1
+            if not last_line:
+                ActionChains(self.driver).key_down(Keys.SHIFT).send_keys(Keys.ENTER).key_up(Keys.SHIFT).perform()
+
+        chat_input.send_keys(Keys.ENTER)
+
+        
