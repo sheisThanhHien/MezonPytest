@@ -20,6 +20,18 @@ def send_text_message(driver, wait, channel_name=None):
 
     return message
 
+def send_multiline_message(driver, wait, channel_name=None):
+    if channel_name:
+        ChannelPage(driver, wait).open_channel(channel_name)
+
+    timestamp = get_current_time()
+    message = f"Pytest line 1 {timestamp}\nPytest line 2 {timestamp}"
+
+    message_page = MessagePage(driver, wait)
+    message_page.send_multiline_message(message)
+    message_page.verify_message_sent(message)
+
+    return message
 
 def edit_text_message(driver, wait, original_message, new_message=None):
     if new_message is None:
@@ -48,3 +60,4 @@ def create_topic_from_message(driver, wait, source_message, topic_message=None):
     message_topic_page.close_topic()
 
     return topic_message
+
