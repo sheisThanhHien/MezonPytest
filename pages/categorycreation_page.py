@@ -5,7 +5,6 @@ from pages.clan_header_page import ClanHeaderPage
 
 
 class CreateCategoryPage(ClanHeaderPage):
-    CREATE_CATEGORY_MENU_LABEL = "Create Category"
     CREATE_CATEGORY_INPUT = (
         By.CSS_SELECTOR,
         "[data-e2e='clan_page-modal-create_category-input-category_name']",
@@ -21,7 +20,7 @@ class CreateCategoryPage(ClanHeaderPage):
 
     def click_create_category_option(self):
         self.open_settings_menu()
-        self.click_settings_menu_item(self.CREATE_CATEGORY_MENU_LABEL)
+        self.click_settings_menu_item_by_index(ClanHeaderPage.CREATE_CATEGORY_MENU_INDEX) 
 
     def input_category_name(self, category_name):
         self.wait.until(
