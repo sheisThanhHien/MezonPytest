@@ -9,7 +9,7 @@ from flows.channel_flow import create_text_channel
 @pytest.mark.channels
 @pytest.mark.smoke
 @pytest.mark.regression
-@pytest.mark.multilang
+
 def test_create_text_channel(driver, wait):
 
     # Login

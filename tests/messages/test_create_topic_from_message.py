@@ -7,6 +7,7 @@ from flows.message_flow import create_topic_from_message, send_text_message
 
 @pytest.mark.messages
 @pytest.mark.regression
+
 def test_create_topic(driver, wait):
     login_email_password(driver, wait)
     print("Login successfully!")

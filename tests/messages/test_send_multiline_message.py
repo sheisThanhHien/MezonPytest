@@ -7,6 +7,8 @@ from flows.message_flow import send_multiline_message
 
 @pytest.mark.messages
 @pytest.mark.regression
+@pytest.mark.smoke
+
 def test_send_multiline_message(driver, wait):
     login_email_password(driver, wait)
     print("Login successfully!")

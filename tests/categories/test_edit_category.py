@@ -5,10 +5,9 @@ from flows.clan_flow import create_clan, delete_clan
 from flows.category_flow import create_category, edit_category
 from utils.helpers import get_current_time
 
-
 @pytest.mark.categories
 @pytest.mark.regression
-@pytest.mark.multilang
+
 def test_edit_category(driver, wait):
 
     # Login

@@ -6,6 +6,8 @@ from flows.message_flow import pin_message, send_text_message
 
 @pytest.mark.messages
 @pytest.mark.regression
+@pytest.mark.smoke
+
 def test_pin_message(driver, wait):
     login_email_password(driver, wait)
     print("Login successfully!")

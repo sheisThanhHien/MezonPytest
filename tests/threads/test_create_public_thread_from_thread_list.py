@@ -8,6 +8,8 @@ from flows.thread_flow import create_public_thread_from_thread_list
 
 @pytest.mark.threads
 @pytest.mark.regression
+@pytest.mark.smoke
+
 def test_create_public_thread_from_thread_list(driver, wait):
     login_email_password(driver, wait)
     print("Login successfully!")

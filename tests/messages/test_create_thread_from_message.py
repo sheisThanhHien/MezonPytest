@@ -8,6 +8,7 @@ from flows.thread_flow import create_thread_from_message
 
 @pytest.mark.messages
 @pytest.mark.regression
+
 def test_create_thread_from_message(driver, wait):
     login_email_password(driver, wait)
     print("Login successfully!")

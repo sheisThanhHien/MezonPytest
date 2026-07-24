@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+cd "$ROOT"
+
+PYTEST="${ROOT}/.venv/bin/pytest"
+ALLURE_RESULTS="${ROOT}/reports/allure-results"
+ALLURE_REPORT="${ROOT}/reports/allure-report"
+PYTEST_OPTS=("--headless")
+OPEN_REPORT=false
+
+usage() {
+  cat <<'EOF'
+Usage: ./scripts/reg [options]
+
+Options:
+  --headless       Run without visible browser (default)
+  --headed         Run with visible browser (for debugging)
+  --open-report    Open Allure report when tests finish
+  -h, --help       Show this help
+EOF
+}
+
+for arg in "$@"; do
+  case "$arg" in
+    --headless) PYTEST_OPTS=("--headless") ;;
+    --headed) PYTEST_OPTS=("--headed") ;;
+    --open-report) OPEN_REPORT=true ;;
+    -h|--help)
+      usage
+      exit 0
+      ;;
+  esac
+done
+
+mkdir -p "${ROOT}/reports"
+rm -rf "$ALLURE_RESULTS"
+
+TEST_EXIT=0
+"$PYTEST" -m regression "${PYTEST_OPTS[@]}" --alluredir="$ALLURE_RESULTS" || TEST_EXIT=$?
+
+npx --yes allure-commandline generate "$ALLURE_RESULTS" -o "$ALLURE_REPORT" --clean
+
+MODE="headless"
+if [ "${PYTEST_OPTS[0]}" = "--headed" ]; then
+  MODE="headed"
+fi
+
+echo ""
+echo "Regression done (${MODE}). View Allure report when ready:"
+echo "  npx --yes allure-commandline open reports/allure-report"
+
+if [ "$OPEN_REPORT" = true ]; then
+  npx --yes allure-commandline open "$ALLURE_REPORT"
+fi
+
+exit "$TEST_EXIT"

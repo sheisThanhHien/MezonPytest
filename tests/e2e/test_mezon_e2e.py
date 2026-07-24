@@ -20,7 +20,7 @@ from flows.thread_flow import (
 
 
 @pytest.mark.e2e
-@pytest.mark.regression
+
 def test_mezon_full_flow(driver, wait):
     with e2e_section("LOGIN") as section:
         login_email_password(driver, wait)
